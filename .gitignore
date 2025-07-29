@@ -9,6 +9,8 @@ compile_commands.json
 CMakeSettings.json
 .vs/
 .vscode/
+.ide/
+.idea
 .clangd
 
 .venv/
@@ -31,6 +33,7 @@ zig-cache/
 *.sw?
 
 __pycache__/
+*.egg-info
 
 # Model files
 ggml-model-f16.bin

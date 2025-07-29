@@ -1899,8 +1899,8 @@ static inline void __lsx_f16x4_store(ggml_fp16_t * x, __m128 y) {
 
 struct ggml_context {
     size_t mem_size;
-    void* mem_buffer;
-    bool   mem_buffer_owned;
+    void* mem_buffer; // void* 多态，可以是malloc，也可以是cudaMalloc 对应多种后端
+    bool   mem_buffer_owned; // whether the memory buffer was allocated by the context
     bool   no_alloc;
     bool   no_alloc_save; // this is used to save the no_alloc state when using scratch buffers
 

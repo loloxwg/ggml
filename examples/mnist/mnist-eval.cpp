@@ -19,10 +19,13 @@ int main(int argc, char ** argv) {
     srand(time(NULL));
     ggml_time_init();
 
-    if (argc != 4) {
-        fprintf(stderr, "Usage: %s mnist-fc-f32.gguf data/MNIST/raw/t10k-images-idx3-ubyte data/MNIST/raw/t10k-labels-idx1-ubyte\n", argv[0]);
-        exit(1);
-    }
+    // if (argc != 4) {
+    //     fprintf(stderr, "Usage: %s mnist-fc-f32.gguf data/MNIST/raw/t10k-images-idx3-ubyte data/MNIST/raw/t10k-labels-idx1-ubyte\n", argv[0]);
+    //     exit(1);
+    // }
+    argv[1]= "/Users/xwg/dev/cpp/ggml/examples/mnist/mnist-fc-f32.gguf";
+    argv[2]= "/Users/xwg/dev/cpp/ggml/examples/mnist/data/MNIST/raw/t10k-images-idx3-ubyte";
+    argv[3]= "/Users/xwg/dev/cpp/ggml/examples/mnist/data/MNIST/raw/t10k-labels-idx1-ubyte";
 
     std::vector<float> images;
     images.resize(MNIST_NTEST*MNIST_NINPUT);
