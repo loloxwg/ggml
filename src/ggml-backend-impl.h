@@ -50,7 +50,7 @@ extern "C" {
     };
 
     struct ggml_backend_buffer {
-        struct ggml_backend_buffer_i  iface;
+        struct ggml_backend_buffer_i  iface;  // 接口
         ggml_backend_buffer_type_t    buft;
         ggml_backend_buffer_context_t context;
         size_t size;

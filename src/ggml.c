@@ -1904,10 +1904,10 @@ struct ggml_context {
     bool   no_alloc;
     bool   no_alloc_save; // this is used to save the no_alloc state when using scratch buffers
 
-    int    n_objects;
+    int    n_objects; // 有多少个 object
 
-    struct ggml_object * objects_begin;
-    struct ggml_object * objects_end;
+    struct ggml_object * objects_begin; // object 链表头
+    struct ggml_object * objects_end;  // object 链表尾
 
     struct ggml_scratch scratch;
     struct ggml_scratch scratch_save;
@@ -20471,10 +20471,10 @@ struct ggml_cgraph * ggml_graph_import(const char * fname, struct ggml_context *
 
         // create the data context
         {
-            const size_t overhead = 1*ggml_tensor_overhead();
+            const size_t overhead = 1*ggml_tensor_overhead(); //
 
             struct ggml_init_params params = {
-                .mem_size   = fsize + overhead,
+                .mem_size   = fsize + overhead,  // 所有数据 和 一个 ggml_object 和一个 tensor
                 .mem_buffer = NULL,
                 .no_alloc   = false,
             };

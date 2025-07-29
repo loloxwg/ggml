@@ -582,7 +582,7 @@ extern "C" {
 
         struct ggml_object * next;
 
-        enum ggml_object_type type;
+        enum ggml_object_type type; // 对象类型
 
         char padding[4];
     };
@@ -591,13 +591,13 @@ extern "C" {
 
     // n-dimensional tensor
     struct ggml_tensor {
-        enum ggml_type         type;
+        enum ggml_type         type;  // 类型
 
         GGML_DEPRECATED(enum ggml_backend_type backend, "use the buffer type to find the storage location of the tensor");
 
-        struct ggml_backend_buffer * buffer;
+        struct ggml_backend_buffer * buffer;  // 不同的后端有不同的存储方式
 
-        int64_t ne[GGML_MAX_DIMS]; // number of elements
+        int64_t ne[GGML_MAX_DIMS]; // number of elements  形状 [1, 2, 3, 4]
         size_t  nb[GGML_MAX_DIMS]; // stride in bytes:
                                    // nb[0] = ggml_type_size(type)
                                    // nb[1] = nb[0]   * (ne[0] / ggml_blck_size(type)) + padding
