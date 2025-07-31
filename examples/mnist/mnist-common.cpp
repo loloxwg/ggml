@@ -323,9 +323,11 @@ void mnist_model_build(mnist_model & model, const int nbatch) {
         ggml_tensor * fc1 = ggml_relu(model.ctx_compute, ggml_add(model.ctx_compute,
             ggml_mul_mat(model.ctx_compute, model.fc1_weight, model.images),
             model.fc1_bias));
+
         model.logits = ggml_add(model.ctx_compute,
             ggml_mul_mat(model.ctx_compute, model.fc2_weight, fc1),
             model.fc2_bias);
+
     } else if (model.arch == "mnist-cnn") {
         ggml_set_param(model.ctx_compute, model.conv1_kernel);
         ggml_set_param(model.ctx_compute, model.conv1_bias);
@@ -410,17 +412,19 @@ void mnist_model_build(mnist_model & model, const int nbatch) {
     GGML_ASSERT(model.loss->ne[3] == 1);
 }
 
+// 构建 cgraph
 mnist_eval_result mnist_model_eval(const mnist_model & model, const float * images, const float * labels, const int nex, const int nthreads) {
     mnist_eval_result result;
 
-    struct ggml_cgraph * gf = ggml_new_graph(model.ctx_compute);
-    ggml_build_forward_expand(gf, model.loss);
+    struct ggml_cgraph * gf = ggml_new_graph(model.ctx_compute); // cgraph 的创建
+    ggml_build_forward_expand(gf, model.loss); // cgraph 的构建  由孩子子节点发起
 
     {
         const int64_t t_start_us = ggml_time_us();
 
         GGML_ASSERT(nex % model.nbatch == 0);
         for (int iex0 = 0; iex0 < nex; iex0 += model.nbatch) {
+
             memcpy(model.images->data, images + iex0*MNIST_NINPUT,   ggml_nbytes(model.images));
             memcpy(model.labels->data, labels + iex0*MNIST_NCLASSES, ggml_nbytes(model.labels));
             ggml_graph_compute_with_ctx(model.ctx_compute, gf, nthreads);

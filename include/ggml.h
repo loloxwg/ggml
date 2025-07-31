@@ -618,7 +618,7 @@ extern "C" {
         struct ggml_tensor * view_src;
         size_t               view_offs;
 
-        void * data;
+        void * data;         // pointer to data
 
         char name[GGML_MAX_NAME];
 

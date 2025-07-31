@@ -23,11 +23,11 @@ struct mnist_model {
     std::string arch;
     int nbatch;
 
-    struct ggml_tensor  * images = nullptr;
-    struct ggml_tensor  * labels = nullptr;
-    struct ggml_tensor  * logits = nullptr;
-    struct ggml_tensor  * probs  = nullptr;
-    struct ggml_tensor  * loss   = nullptr;
+    struct ggml_tensor  * images = nullptr;  // 图像
+    struct ggml_tensor  * labels = nullptr;  // 标签
+    struct ggml_tensor  * logits = nullptr;  // 推理的结果
+    struct ggml_tensor  * probs  = nullptr;  // 概率值
+    struct ggml_tensor  * loss   = nullptr;  // 损失
 
     struct ggml_tensor * fc1_weight = nullptr;
     struct ggml_tensor * fc1_bias   = nullptr;
@@ -50,7 +50,7 @@ struct mnist_model {
     struct ggml_context * ctx_compute = nullptr;
 
     mnist_model() {
-        buf_weight = malloc(size_weight);
+        buf_weight = malloc(size_weight); // 存权重的
         {
             struct ggml_init_params params = {
                 /*.mem_size   =*/ size_weight,
@@ -60,7 +60,7 @@ struct mnist_model {
             ctx_weight = ggml_init(params);
         }
 
-        buf_compute = malloc(size_compute);
+        buf_compute = malloc(size_compute); // 存计算的中间结果
         {
             struct ggml_init_params params = {
                 /*.mem_size   =*/ size_compute,
