@@ -217,9 +217,11 @@ mnist_model mnist_model_init_from_file(const std::string & fname, const std::str
         fprintf(stderr, "%s: unknown model arch: %s\n", __func__, model.arch.c_str());
     }
 
+    // 分配权重的内存
     model.buf_gguf = ggml_backend_alloc_ctx_tensors(model.ctx_gguf, model.backends[0]);
 
-    if(!load_from_gguf(fname.c_str(), model.ctx_gguf, ctx)) {
+    // 拷贝内存到 对应 上一步申请的 backend buffer 中
+    if(!load_from_gguf(fname.c_str(), model .ctx_gguf, ctx)) {
         fprintf(stderr, "%s: loading weights from %s failed\n", __func__, fname.c_str());
         exit(1);
     }

@@ -651,8 +651,8 @@ struct gguf_context * gguf_init_from_file_impl(FILE * file, struct gguf_init_par
         // compute the exact size needed for the new ggml_context
         const size_t mem_size =
             params.no_alloc ?
-            (n_tensors    )*ggml_tensor_overhead() :
-            (n_tensors + 1)*ggml_tensor_overhead() + ctx->size;
+            (n_tensors    )*ggml_tensor_overhead() : // empty tensors only if no_alloc is set
+            (n_tensors + 1)*ggml_tensor_overhead() + ctx->size; // one extra tensor for the data
 
         struct ggml_init_params pdata = {
             /*mem_size   =*/ mem_size,

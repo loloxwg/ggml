@@ -179,9 +179,9 @@ extern "C" {
     };
 
     struct ggml_backend_device {
-        struct ggml_backend_device_i iface;
-        ggml_backend_reg_t reg;
-        void * context;
+        struct ggml_backend_device_i iface; //带 _i 的都是 多态 接口，用函数指针来实现
+        ggml_backend_reg_t reg; //  指向 ggml_backend_reg
+        void * context;         //  不同的 backend device 有不同的 context，用来区分 cpu 和 gpu
     };
 
     //
@@ -202,8 +202,8 @@ extern "C" {
 
     struct ggml_backend_reg {
         int api_version; // initialize to GGML_BACKEND_API_VERSION
-        struct ggml_backend_reg_i iface;
-        void * context;
+        struct ggml_backend_reg_i iface;  // 带 _i 的都是 多态 接口，用函数指针来实现
+        void * context;                   // 不同的 backend reg 有不同的 context ，用来区分 cpu 和 gpu
     };
 
     // Internal backend registry API

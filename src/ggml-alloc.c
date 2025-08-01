@@ -74,6 +74,7 @@ struct ggml_tallocr ggml_tallocr_new(ggml_backend_buffer_t buffer) {
     return talloc;
 }
 
+// 要把 tensor 中的 那个 void * 指向 backend buffer 中的地址
 enum ggml_status ggml_tallocr_alloc(struct ggml_tallocr * talloc, struct ggml_tensor * tensor) {
     size_t size = ggml_backend_buffer_get_alloc_size(talloc->buffer, tensor);
     size = GGML_PAD(size, talloc->alignment);
@@ -928,6 +929,7 @@ static void free_buffers(ggml_backend_buffer_t ** buffers, const size_t * n_buff
     free(*buffers);
 }
 
+// 申请显存了
 static bool alloc_tensor_range(struct ggml_context * ctx,
         struct ggml_tensor * first, struct ggml_tensor * last,
         ggml_backend_buffer_type_t buft, size_t size,
@@ -969,6 +971,7 @@ static bool alloc_tensor_range(struct ggml_context * ctx,
     return true;
 }
 
+// alloc from a specific buffer type 就只申请显存
 ggml_backend_buffer_t ggml_backend_alloc_ctx_tensors_from_buft(struct ggml_context * ctx, ggml_backend_buffer_type_t buft) {
     GGML_ASSERT(ggml_get_no_alloc(ctx) == true);
 
